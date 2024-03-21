@@ -17,7 +17,7 @@ function draw() {
   background(220);
   a = new Vector3(3, 3, 3);
   b = new Vector3(3, 2, -1);
-  c = normalizeVector(a);
+  c = subVectors(a, b);
   strokeWeight(5);
   stroke("magenta");
   line(0, 0, 0, 150, 150, 150);
