@@ -1,7 +1,20 @@
-html, body {
+body {
   margin: 0;
   padding: 0;
+  font-family: Arial, sans-serif; /* Domyślna czcionka bezszeryfowa */
+  background-color: #f0f0f0; /* Kolor tła */
+  color: #333; /* Kolor tekstu */
 }
-canvas {
-  display: block;
+
+/* Stylowanie nagłówków */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Dla nagłówków stosujemy inną czcionkę */
+  color: #444; /* Kolor nagłówków */
+}
+.main-content {
+  width: 80%; /* Szerokość treści */
+  margin: 0 auto; /* Wyśrodkowanie treści */
+  padding: 20px; /* Wewnętrzny padding */
+  background-color: #fff; /* Tło elementu */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Cień */
 }
