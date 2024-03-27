@@ -1,64 +1,70 @@
-class Vector3 {
-  constructor(x, y, z){
-    this.x = x;
-    this.y = y;
-    this.z = z;
+exInput = "a = vec3(-100, 10, 100) \n b = vec3(200, 200, 12) \n"; // c = a + b
+
+class Interpreter
+{
+  constructor()
+  {
+    this.variables = new Map();
     
   }
+  consumeInput(input)
+  {
+    const lines = input.split('\n');
+    for(var line of lines)
+    {
+      if(line)
+      {
+        line = line
+          .replace(/\s/g, '')
+          .split("=");
+        const nameVar = line[0];
+        const expression = line[1];
+        
+        if(expression.startsWith("vec3"))
+        {
+          const components = expression
+            .substring(5, expression.length - 1)
+            .split(",")
+            .map((x) => parseInt(x));
+          this.variables.set(nameVar, new Vector3(components[0], components[1], components[2])); 
+        } 
+      }
+    }
+    print(this.variables);
+  }
 }
-function setup() {
+const interpreter = new Interpreter(); 
+function setup() 
+{
   createCanvas(400, 400, WEBGL);
-  debugMode();
   perspective(PI/3, 1, 5 * sqrt(3), 500 * sqrt(3));
-  camera(0, 130, 200, 0, 0, 0, 0, -1, 0);
+  camera(0,-100, 200);
+  interpreter.consumeInput(exInput);
 }
-
-function draw() {
+function drawMode()
+{
+  strokeWeight(3);
+  stroke("red");
+  line(0,0,0, 100000, 0, 0);
+  stroke("blue");
+  line(0,0,0, 0, 0, 1000000);
+  stroke("green");
+  line(0,0,0, 0, -1000000, 0);
+}
+function draw() 
+{
   background(220);
-  a = new Vector3(3, 3, 3);
-  b = new Vector3(3, 2, -1);
-  c = subVectors(a, b);
-  strokeWeight(5);
-  stroke("magenta");
-  line(0, 0, 0, 150, 150, 150);
+  for(let[key, value] of interpreter.variables)
+  {
+    drawVector(value);
+  }
+  drawMode();
   stroke("black");
 }
-function addVectors(a, b)
+
+function drawVector(c)
 {
-  return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
-}
-function subVectors(a, b)
-{
-  return new Vector3(a.x - b.x, a.y-b.y, a.z - b.z);
-}
-function mulVector(vec, s)
-{
-  return new Vector3(s * vec.x, s * vec.y, s * vec.z);
-}
-function divVector(vec, s)
-{
-  return mulVector(vec, 1/s);
-}
-function negateVector(vec)
-{
-  return mulVector(vec, -1);
-}
-function lengthVector(vec)
-{
-  return sqrt(pow(vec.x, 2) + pow(vec.y, 2) + pow(vec.z, 2));
-}
-function dotProduct(a, b)
-{
-  return (a.x * b.x + a.y * b.y + a.z * b.z);
-}
-function crossProduct(a, b)
-{
-  x = a.y * b.z - a.z * b.y;
-  y = a.z * b.x - a.x * b.z;
-  z = a.x * b.y - a.y * b.x;
-  return new Vector3(x, y, z)
-}
-function normalizeVector(a)
-{
-  return divVector(a, lengthVector(a));
+  strokeWeight(5);
+  stroke("black");
+  line(0, 0, 0, c.x, -c.y, c.z);
 }
