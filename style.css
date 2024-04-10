@@ -11,7 +11,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Dla nagłówków stosujemy inną czcionkę */
   color: #444; /* Kolor nagłówków */
 }
-.main-content {
+#main-content {
   width: 80%; /* Szerokość treści */
   margin: 0 auto; /* Wyśrodkowanie treści */
   padding: 20px; /* Wewnętrzny padding */
