@@ -12,9 +12,34 @@ h1, h2, h3, h4, h5, h6 {
   color: #444; /* Kolor nagłówków */
 }
 #main-content {
-  width: 80%; /* Szerokość treści */
+  width: 49%; /* Szerokość treści */
   margin: 0 auto; /* Wyśrodkowanie treści */
   padding: 20px; /* Wewnętrzny padding */
   background-color: #646464; /* Tło elementu */
   box-shadow: 0 0 10px rgba(7, 7, 7, 0.1); /* Cień */
+}
+#words {
+  width: 20%;
+  float:left;
+  position:fixed;
+  background-color: rgb(22, 22, 22);
+  width: 25%;
+  height: 41%;
+  margin-left: 23%;
+  border: solid 4px white;
+  color:white;
+  font-family:'Courier New', Courier, monospace;
+  padding: 5px;
+  overflow-y: auto;
+  
+}
+#inpucik {
+  margin-left: 41%;
+  margin-top: 2%;
+  background-color: rgb(22, 22, 22);
+  color:white;
+  border: solid 1px white;
+  padding: 15px;
+  width: 230px;
+  font-family:'Courier New', Courier, monospace;
 }

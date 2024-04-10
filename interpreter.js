@@ -19,9 +19,7 @@ class Interpreter
     }
     else if(tokens.length == 1)
     {
-        console.log(tokens[0]);
-        console.log(this.variables.get(tokens[0]));
-        return this.variables.get(tokens[0]);
+        return this.variables.get(tokens[0]).vector;
     }
   }
   consumeInput(input)
@@ -43,14 +41,20 @@ class Interpreter
             .substring(5, expression.length - 1)
             .split(",")
             .map((x) => parseInt(x));
-          this.variables.set(nameVar, new Vector3(components[0], components[1], components[2])); 
+          this.variables.set(nameVar, { vector: new Vector3(components[0], components[1], components[2]), color: "black"}); 
         } 
         else
         {
-            print(this.evaluateExpression(expression));
+          Vector3.prototype.toString = function() {
+            return 'Vector3 {x : ' + this.x + ', y : ' + this.y + ', z : ' + this.z + '}';
+          }
+          let wordsDiv = document.getElementById("words");
+          let newVec = this.evaluateExpression(expression);
+          let vectorAsString = this.evaluateExpression(expression).toString();
+          this.variables.set(nameVar, { vector: newVec, color: "red "});
+          wordsDiv.innerHTML += vectorAsString + "<br>";
         }
       }
     }
   }
-
 }
