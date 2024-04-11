@@ -6,11 +6,15 @@ class Interpreter
     this.operators = new Map([
         ["+", addVectors],
         ["-", subVectors],
+        ["⋅", dotProduct],
+        ["x", crossProduct],
+        ["*", mulVector],
+        ["/", divVector],
     ]);
   }  
   evaluateExpression(expression)
   {
-    const tokens = expression.split(/(?:\+|\-)(.*)/);
+    const tokens = expression.split(/(?:\+|\-|\*|\x|\⋅|\/)(.*)/);
     if(tokens.length == 3)
     {
         let opCode = expression.substring(tokens[0].length + 1, expression.length - tokens[0].length - tokens[1].length);
@@ -19,7 +23,12 @@ class Interpreter
     }
     else if(tokens.length == 1)
     {
-        return this.variables.get(tokens[0]).vector;
+      let value = this.variables.get(tokens[0]);
+      if(value !== undefined) {
+          return value.vector;
+      } else if(!isNaN(tokens[0])) {
+          return parseFloat(tokens[0]);
+      }
     }
   }
   consumeInput(input)

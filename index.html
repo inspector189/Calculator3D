@@ -8,6 +8,9 @@
 
   </head>
   <body>
+    <div id="header">
+      <h1>3D Math Calculator</h1>
+    </div>
     <main id="main-content">
       <script src="vector3.js"></script>
       <script src="interpreter.js"></script>
@@ -16,6 +19,21 @@
       
       </div>
     </main>
-    <input type="text" id="inpucik" placeholder="Podaj dane..."/>
+    <input type="text" id="inpucik" placeholder="Enter data..."/>
+    <div id="description">
+      <h2>Instruction:</h2>
+      <h4>Create vectors: <br><code>a = vec3(-100, 10, 100)</code><br><code>b = vec3(200, 200, 12)</code></h4>
+      <h4>Operations:</h4>
+      <p>+     : addVectors     <code>c = a + b</code></p>
+      <p>-     : subVectors     <code>c = a - b</code></p>
+      <p>*     : mulVector     <code>c = a * 2</code></p>
+      <p>/     : divVectors     <code>c = b / 3</code></p>
+      <p>⋅     : dotProduct     <code>c = a ⋅ b</code></p>
+      <p>x     : crossProduct     <code>c = a x b</code></p>
+
+      <h4>Useful features:</h4>
+      <p>clear() - clear all (console and variables) <br><code>clear()</code></p>
+      <p>color(nameVector, "color") - change color of vector <br><code>color(a, "blue")</code></p>
+    </div>
   </body>
 </html>
