@@ -1,6 +1,14 @@
 //exInput = "a = vec3(-100, 10, 100) \n b = vec3(200, 200, 12) \n c = a + b"; // c = a + b
-let input = document.getElementById("inpucik");
+// c = a + vec3(0, 0, 0)
+let input;
 var interpreter = new Interpreter(); 
+var commandHistory = [];
+var indexHistory = 0;
+let f;
+
+function preload() {
+  f = loadFont('Roboto-Black.ttf');
+}
 function setup() 
 {
   createCanvas(400, 400, WEBGL);
@@ -12,30 +20,28 @@ function keyPressed()
 {
   if(keyCode === ENTER)
   {
-    let msg = input.value;
-    let wordsDiv = document.getElementById("words");
-    if(msg.trim() === "clear()")
+    msg = input.value;
+    interpreter.consumeInput(msg);
+    commandHistory.push(msg);
+    indexHistory = commandHistory.length;
+    input.value = "";
+  }
+  else if(keyCode === UP_ARROW) 
+  {
+    indexHistory = indexHistory > 0 ? indexHistory - 1 : indexHistory;
+    input.value = commandHistory[indexHistory];
+  }
+  else if(keyCode == DOWN_ARROW)
+  {
+    if(indexHistory < commandHistory.length - 1)
     {
-      wordsDiv.innerHTML = "";
-      interpreter.variables.clear();
-    }
-    else if (msg.startsWith("color(")) {
-      let match = msg.match(/color\((\w+),\s*"(\w+)"\)/);
-      if (match) {
-        let vectorName = match[1];
-        let colorName = match[2];
-        if (interpreter.variables.has(vectorName)) {
-          interpreter.variables.get(vectorName).color = colorName;
-        }
-      }
-      wordsDiv.innerHTML += msg + "<br>";
+      indexHistory + 1;
+      input.value = commandHistory[indexHistory];
     }
     else
     {
-      wordsDiv.innerHTML += msg + "<br>";
-      interpreter.consumeInput(msg);
+      input.value = "";
     }
-    input.value = "";
   }
 }
 function drawMode()
@@ -57,6 +63,15 @@ function draw()
   for(let[key, value] of interpreter.variables)
   {
     drawVector(value);
+    push();
+    textFont(f);
+    translate(value.vector.x, -value.vector.y, value.vector.z);
+    
+    textSize(30);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text(value.vector.x.toString() + " " + value.vector.y.toString() + " " + value.vector.z.toString(), 0, -50);
+    pop();
   }
   drawMode();
   stroke("black");
