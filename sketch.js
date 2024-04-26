@@ -1,5 +1,3 @@
-//exInput = "a = vec3(-100, 10, 100) \n b = vec3(200, 200, 12) \n c = a + b"; // c = a + b
-// c = a + vec3(0, 0, 0)
 let input;
 var interpreter = new Interpreter(); 
 var commandHistory = [];
@@ -12,7 +10,7 @@ function preload() {
 function setup() 
 {
   createCanvas(400, 400, WEBGL);
-  perspective(PI/3, 1, 5 * sqrt(3), 500 * sqrt(3));
+  perspective(PI/3, 1, 5 * sqrt(3), 1000 * sqrt(3));
   camera(0,-100, 200);
   input = document.getElementById('inpucik');
 }
@@ -53,7 +51,6 @@ function drawMode()
   line(0,0,0, 0, 0, 1000000);
   stroke("rgba(0, 255, 0, 0.25)");
   line(0,0,0, 0, -1000000, 0);
-
   fill(255);
 }
 function draw() 
@@ -66,7 +63,6 @@ function draw()
     push();
     textFont(f);
     translate(value.vector.x, -value.vector.y, value.vector.z);
-    
     textSize(30);
     fill(0);
     textAlign(CENTER, CENTER);
@@ -76,7 +72,6 @@ function draw()
   drawMode();
   stroke("black");
 }
-
 function drawVector(c)
 {
   strokeWeight(5);

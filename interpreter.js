@@ -1,26 +1,27 @@
-//to do: minusy trzeba naprawić :(
 class Interpreter
 {
   constructor()
   {
     this.variables = new Map();
     this.operators = new Map([
-        ["+", addVectors],
-        ["-", subVectors],
-        ["⋅", dotProduct],
-        ["x", crossProduct],
-        ["*", mulVector],
-        ["/", divVector],
+        ["add", addVectors],
+        ["sub", subVectors],
+        ["dot", dotProduct],
+        ["cross", crossProduct],
+        ["mul", mulVector],
+        ["div", divVector],
     ]);
   }  
   evaluateExpression(expression)
   {
-    const tokens = expression.split(/(?:\+|\-|\*|\x|\⋅|\/)(.*)/);
+    const tokens = expression.split(/(add|sub|cross|dot|mul|div)/);
+    console.log(tokens);
     if(tokens.length == 3)
     {
-        let opCode = expression.substring(tokens[0].length + 1, expression.length - tokens[0].length - tokens[1].length);
+        let opCode = expression.substring(tokens[0].length, expression.length - tokens[2].length);
+        console.log(opCode);
         let operator = this.operators.get(opCode);
-        return operator(this.evaluateExpression(tokens[0]), this.evaluateExpression(tokens[1]));
+        return operator(this.evaluateExpression(tokens[0]), this.evaluateExpression(tokens[2]));
     }
     else if(tokens.length == 1)
     {
@@ -38,12 +39,16 @@ class Interpreter
             .map((x) => parseInt(x));
           return new Vector3(components[0], components[1], components[2]);
       }
+      else
+      {
+        let wordsDiv = document.getElementById("words");
+        wordsDiv.innerHTML += "ERROR: Unexpected token!!! " + tokens[0] + "<br>";
+      }
     }
   }
   consumeInput(input)
   {
     const lines = input.split('\n');
-    let wordsDiv = document.getElementById("words");
     for(var line of lines)
     {
       if(line)
@@ -80,7 +85,6 @@ class Interpreter
         let vectorAsString = this.evaluateExpression(expression).toString();
         this.variables.set(nameVar, { vector: newVec, color: "red "});
         wordsDiv.innerHTML += vectorAsString + "<br>";
-        
       }
     }
   }
