@@ -98,9 +98,19 @@ class Interpreter
           return 'Vector3 {x : ' + this.x + ', y : ' + this.y + ', z : ' + this.z + '}';
         }
         let newVec = this.evaluateExpression(expression);
-        let vectorAsString = newVec.toString();
-        this.variables.set(nameVar, { vector: newVec, color: "red "});
-        wordsDiv.innerHTML += nameVar + " = " + vectorAsString + "<br>";
+        if(typeof newVec === "number")
+          {
+            wordsDiv.innerHTML += nameVar + " = " + newVec + "<br>";
+            continue; // <-- pomijamy zapis do this.variables
+          }
+
+          Vector3.prototype.toString = function() {
+            return 'Vector3 {x : ' + this.x + ', y : ' + this.y + ', z : ' + this.z + '}';
+          }
+
+          let vectorAsString = newVec.toString();
+          this.variables.set(nameVar, { vector: newVec, color: "red" });
+          wordsDiv.innerHTML += nameVar + " = " + vectorAsString + "<br>";
       }
     }
   }
