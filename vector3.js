@@ -6,6 +6,13 @@ class Vector3
     this.y = y;
     this.z = z;
   }
+  round(n = 2)
+  {
+    this.x = +this.x.toFixed(n);
+    this.y = +this.y.toFixed(n);
+    this.z = +this.z.toFixed(n);
+    return this;
+  }
 }
 function addVectors(a, b)
 {
@@ -21,7 +28,7 @@ function mulVector(vec, s)
 }
 function divVector(vec, s)
 {
-  return mulVector(vec, 1/s);
+  return mulVector(vec, 1/s).round(2);
 }
 function negateVector(vec)
 {

@@ -4,24 +4,40 @@ class Interpreter
   {
     this.variables = new Map();
     this.operators = new Map([
-        ["add", addVectors],
-        ["sub", subVectors],
-        ["dot", dotProduct],
-        ["cross", crossProduct],
-        ["mul", mulVector],
-        ["div", divVector],
+      ["+", addVectors],
+      ["-", subVectors],
+      ["*", mulVector],
+      ["/", divVector],
+      ["^", crossProduct],
+      [".", dotProduct],
     ]);
   }  
   evaluateExpression(expression)
   {
-    const tokens = expression.split(/(add|sub|cross|dot|mul|div)/);
+    expression = expression.trim();
+    if(expression.startsWith("vec3"))
+    {
+      const components = expression
+        .substring(5, expression.length - 1)
+        .split(",")
+        .map(x => parseFloat(x));
+
+      return new Vector3(components[0], components[1], components[2]);
+    }
+    const tokens = expression.split(/(\+|\-|\*|\/|\^|\.)/);
     console.log(tokens);
     if(tokens.length == 3)
     {
-        let opCode = expression.substring(tokens[0].length, expression.length - tokens[2].length);
-        console.log(opCode);
-        let operator = this.operators.get(opCode);
-        return operator(this.evaluateExpression(tokens[0]), this.evaluateExpression(tokens[2]));
+      let left = tokens[0];
+      let opCode = tokens[1];
+      let right = tokens[2];
+
+      let operator = this.operators.get(opCode);
+
+      return operator(
+        this.evaluateExpression(left),
+        this.evaluateExpression(right)
+      );
     }
     else if(tokens.length == 1)
     {
@@ -48,6 +64,7 @@ class Interpreter
   }
   consumeInput(input)
   {
+    let wordsDiv = document.getElementById("words");
     const lines = input.split('\n');
     for(var line of lines)
     {
@@ -60,7 +77,7 @@ class Interpreter
           continue;
         }
         else if (line.startsWith("color(")) {
-          let match = line.match(/color\((\w+),\s*"(\w+)"\)/);
+          let match = line.match(/color\((\w+),\s*"([^"]+)"\)/);
           if (match) {
             let vectorName = match[1];
             let colorName = match[2];
@@ -80,11 +97,10 @@ class Interpreter
         Vector3.prototype.toString = function() {
           return 'Vector3 {x : ' + this.x + ', y : ' + this.y + ', z : ' + this.z + '}';
         }
-        let wordsDiv = document.getElementById("words");
         let newVec = this.evaluateExpression(expression);
-        let vectorAsString = this.evaluateExpression(expression).toString();
+        let vectorAsString = newVec.toString();
         this.variables.set(nameVar, { vector: newVec, color: "red "});
-        wordsDiv.innerHTML += vectorAsString + "<br>";
+        wordsDiv.innerHTML += nameVar + " = " + vectorAsString + "<br>";
       }
     }
   }

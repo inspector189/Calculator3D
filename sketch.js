@@ -23,6 +23,15 @@ function keyPressed()
     commandHistory.push(msg);
     indexHistory = commandHistory.length;
     input.value = "";
+
+    input.blur();
+    
+    setTimeout(() => {
+      input.focus();
+      input.value = "";
+    }, 0);
+
+    return false;
   }
   else if(keyCode === UP_ARROW) 
   {
@@ -33,12 +42,13 @@ function keyPressed()
   {
     if(indexHistory < commandHistory.length - 1)
     {
-      indexHistory + 1;
+      indexHistory++;
       input.value = commandHistory[indexHistory];
     }
     else
     {
       input.value = "";
+      indexHistory = commandHistory.length;
     }
   }
 }
